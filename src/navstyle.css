@@ -1,0 +1,85 @@
+::-webkit-scrollbar,
+::-webkit-scrollbar:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 8px;
+  border-radius: 100px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 100px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-track {
+  border: 3px solid transparent;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(13, 181, 172);
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.active {
+  display: block;
+  border-bottom: 3px solid white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.scrollmenu {
+  margin: 0px;
+  border: 3px solid rgb(13, 181, 172);
+  background-color: rgb(13, 181, 172);
+  white-space: nowrap;
+  display: flex;
+  justify-content: space-around;
+  overflow-x: auto;
+}
+
+.scrollmenu a {
+  display: inline-block;
+  color: white;
+  font-size: 15px;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+}
+
+.scrollmenu a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+#moblinks > a {
+  width: 100%;
+  text-align: left;
+}
+
+#mobnav > .scrollmenu > a:hover {
+  background: rgb(13, 181, 172);
+}
+.btn {
+  outline: none !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
