@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import favicon from './favicon.ico';
 
 export default function Files () {
     function closeAlert () {
@@ -76,8 +77,10 @@ export default function Files () {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
                 <title>Files Downloader - Downloader101</title>
                 <meta name="description" content="You can download files here for free." />
+                <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
                 <meta name="og:title" content="Files Downlaoder - Downloader101" />
                 <meta name="og:url" content="https://downloader101.surge.sh/files" />
+                <meta name='og:image' content={ favicon } />
                 <meta name="og:image:height" content="100" />
                 <meta name="og:image:width" content="100" />
                 <meta name="og:description" content="You can download files here for free." />

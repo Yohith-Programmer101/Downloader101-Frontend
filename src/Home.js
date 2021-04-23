@@ -7,6 +7,7 @@ import files3 from './files-3.jpg';
 import youtube1 from './youtube-1.jpg';
 import youtube2 from './youtube-2.jpg';
 import youtube3 from './youtube-3.jpg';
+import favicon from './favicon.ico';
 
 export default function Home () {
     function openImg (src) {
@@ -60,8 +61,10 @@ export default function Home () {
                 <title>Downloader101 - Step By Step Tutorial</title>
                 <meta name="description"
                     content="This is a website where you can download files and even youtube videos for free. This page contains the step by step tutorial for downloading files and youtube videos." />
+                <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
                 <meta name="og:title" content="Downloader101 - Step By Step Tutorial" />
                 <meta name="og:url" content="https://downloader101.surge.sh" />
+                <meta name="og:image" content={ favicon } />
                 <meta name="og:image:height" content="100" />
                 <meta name="og:image:width" content="100" />
                 <meta name="og:description"

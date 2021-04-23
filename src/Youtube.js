@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import favicon from './favicon.ico';
 
 export default function Youtube () {
     const refContainer = useRef(null);
@@ -182,8 +183,10 @@ export default function Youtube () {
                     name='description'
                     content='You can download youtube videos here for free.'
                 />
+                <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
                 <meta name='og:title' content='Youtube Downloader - Downloader101' />
                 <meta name='og:url' content='https://downloader101.surge.sh/youtube' />
+                <meta name='og:image' content={ favicon } />
                 <meta name='og:image:height' content='100' />
                 <meta name='og:image:width' content='100' />
                 <meta
@@ -232,7 +235,7 @@ export default function Youtube () {
             </div>
             <div
                 style={ { 'backgroundColor': 'lightgrey', 'height': '25px', 'position': 'fixed', 'bottom': '0px', 'width': '100%', 'padding': '5px' } }>
-                <pre>Version: 0.1        Author: Yohith        About me: <a href="https://yohith.herokuapp.com" target="_blank">here</a>        API: <a href="/api/" target="_blank">here</a>        Tutorial: <a href="/tutorial/" target="_blank">here</a></pre>
+                <pre>Version: 0.1        Author: Yohith        About me: <a href="https://yohith.netlify.app" target="_blank">here</a>        API: <a href="/api/" target="_blank">here</a>        Tutorial: <a href="/tutorial/" target="_blank">here</a></pre>
             </div>
             <style>{ css }</style>
         </>
