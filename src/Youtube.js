@@ -8,6 +8,7 @@ export default function Youtube () {
     var [ data, setData ] = useState({});
     var [ streams, setStream ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(true);
+    const [ isError, setIsError ] = useState(false);
     const css = `
     table, td, tr {
         padding: 10px;
@@ -91,10 +92,19 @@ export default function Youtube () {
                     }
                     setStream(streamsList);
                     $('.loader').hide();
+                    $('.box').show();
                     $('#app').show();
                     setIsLoading(false);
+                    refContainer.current.value = "";
                 });
         }
+    }
+    function Error () {
+        return (
+            < >
+                <h1>Error...</h1>
+            </>
+        );
     }
     function Box () {
         return (
@@ -122,15 +132,15 @@ export default function Youtube () {
                             </tr>
                             <tr>
                                 <td>normal</td>
-                                <td>Contains both audio and video</td>
+                                <td>Contains both audio and video. (Suitable for everything)</td>
                             </tr>
                             <tr>
                                 <td>video</td>
-                                <td>Contains only video</td>
+                                <td>Contains only video. (Suitable for seeing movies like 'Charlie Chaplin')</td>
                             </tr>
                             <tr>
                                 <td>audio</td>
-                                <td>Contains only audio</td>
+                                <td>Contains only audio. (Suitable for listening musics.)</td>
                             </tr>
                         </tbody>
                     </table>
@@ -144,16 +154,16 @@ export default function Youtube () {
                                 <td>Size</td>
                                 <td>Link</td>
                             </tr>
-                            { streams.map((elem) => {
-                                { console.log(elem[ 'media' ]); }
-                                <tr>
-                                    { elem[ 'media' ] }
-                                    <td>{ elem[ 'media' ] }</td>
-                                    <td>{ elem[ 'filessize' ] }</td>
-                                    <td>{ elem[ 'quality' ] }</td>
-                                    <td>{ elem[ 'size' ] }</td>
-                                    <td><button className='btn btn-primary'>{ elem[ 'url' ] }</button></td>
-                                </tr>;
+                            { streams.map((elem, index) => {
+                                return (
+                                    <tr key={ elem[ 'url' ] + index }>
+                                        <td key={ new Date().getTime().toString() + elem[ 'media' ] }>{ elem[ 'media' ] }</td>
+                                        <td key={ new Date().getTime().toString() + elem[ 'extension' ] }>{ elem[ 'extension' ] }</td>
+                                        <td key={ new Date().getTime().toString() + elem[ 'quality' ] }>{ elem[ 'quality' ] }</td>
+                                        <td key={ new Date().getTime().toString() + elem[ 'filesize' ] }>{ elem[ 'filesize' ] }</td>
+                                        <td key={ new Date().getTime().toString() + elem[ 'url' ] }><a target='_blank' className='btn btn-primary' href={ elem[ 'url' ] }>Link</a></td>
+                                    </tr>
+                                );
                             }) }
                         </tbody>
                     </table>
@@ -204,9 +214,9 @@ export default function Youtube () {
                 below.
                 </p>
                 <div>
-                    <input type="text" id="url_bar" name="url" ref={ refContainer } onSubmit={ processInput } />
+                    <input type="text" id="url_bar" name="url" ref={ refContainer } onInput={ () => $('.box').hide() } />
                     <button className="btn" style={ { 'backgroundColor': 'rgb(13, 181, 172)', 'marginLeft': '10px' } }
-                        onClick={ processInput }>Save</button>
+                        onClick={ processInput }>Get</button>
                     <br /><br />
                     <div id="alert" className="alert alert-warning alert-dismissible fade show" role="alert"
                         style={ { 'display': 'none', 'width': '600px', 'margin': 'auto', 'textAlign': 'center' } }>
@@ -217,6 +227,7 @@ export default function Youtube () {
                         </button>
                     </div>
                 </div>
+                { isError && <Error /> }
                 { isLoading || <Box /> }
             </div>
             <div

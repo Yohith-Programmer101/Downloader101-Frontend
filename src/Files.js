@@ -94,7 +94,7 @@ export default function Files () {
                 <h2 style={ { 'textAlign': 'center' } }>Files Downloader</h2>
                 <p style={ { 'textAlign': 'center' } }>You can download files by placing the url in the input.</p>
                 <div>
-                    <input type="text" id="url_bar" name="url_bar" />
+                    <input type="text" id="url_bar" name="url_bar" onInput={ () => $('.box').hide() } />
                     <button className="btn" style={ { 'marginLeft': '10px', 'backgroundColor': 'rgb(13, 181, 172)' } }
                         onClick={ processInput }>Save</button><br /><br />
                     <div className="box" style={ { 'display': 'none' } }>
