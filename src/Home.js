@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import './Home.css';
 import files1 from './files-1.jpg';
 import files2 from './files-2.jpg';
 import files3 from './files-3.jpg';
@@ -13,6 +12,45 @@ export default function Home () {
     function openImg (src) {
         window.open(src);
     }
+    const css = `
+    .box {
+        background-color: lightgrey;
+        border-radius: 5px;
+        padding: 5px;
+        margin: auto;
+        margin-bottom: 40px;
+      }
+      
+      .card {
+        width: 300px !important;
+        height: 300px !important;
+        margin: 10px;
+      }
+      
+      .card-img-top {
+        cursor: pointer;
+        width: 300px !important;
+        height: 150px !important;
+      }
+      
+      .steps {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-around;
+      }
+      
+      .card {
+        border-radius: 5px;
+      }
+      
+      .card-body {
+        width: 300px !important;
+        height: 150px !important;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }`;
     return (
         < >
             <Helmet>
@@ -23,7 +61,7 @@ export default function Home () {
                 <meta name="description"
                     content="This is a website where you can download files and even youtube videos for free. This page contains the step by step tutorial for downloading files and youtube videos." />
                 <meta name="og:title" content="Downloader101 - Step By Step Tutorial" />
-                <meta name="og:url" content="https://downloader101.herokuapp.com" />
+                <meta name="og:url" content="https://downloader101.surge.sh" />
                 <meta name="og:image:height" content="100" />
                 <meta name="og:image:width" content="100" />
                 <meta name="og:description"
@@ -98,6 +136,9 @@ export default function Home () {
                 style={ { 'backgroundColor': 'lightgrey', 'height': '25px', 'position': 'fixed', 'bottom': '0px', 'width': '100%', 'padding': '5px' } }>
                 <pre>Version: 0.1        Author: Yohith        About me: <a href="https://yohith.netlify.app" target="_blank">here</a>        API: <a href="/api/" target="_blank">here</a>        Tutorial: <a href="/tutorial/" target="_blank">here</a></pre>
             </div>
+            <style>
+                { css }
+            </style>
         </>
     );
 }
