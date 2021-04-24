@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import $ from 'jquery';
+import $, { error } from 'jquery';
 import favicon from './favicon.ico';
 
 export default function Youtube () {
@@ -97,13 +97,65 @@ export default function Youtube () {
                     $('#app').show();
                     setIsLoading(false);
                     refContainer.current.value = "";
+                })
+                .catch((error) => {
+                    $('.loader').hide();
+                    $('.error').show();
+                    setIsError(true);
+                    console.log(error);
                 });
         }
     }
     function Error () {
         return (
             < >
-                <h1>Error...</h1>
+                <div className='error' style={ { 'textAlign': 'center' } }>
+                    <h1>...Error...</h1>
+                    <button className="btn" style={ { 'backgroundColor': 'rgb(13, 181, 172)' } } onClick={ () => {
+                        setIsError(false);
+                        $('.alert').hide();
+                        $('.loader').show();
+                        $('#app').hide();
+                        fetch(
+                            `https://downloader101.pythonanywhere.com/api/?url=${refContainer.current.value}`
+                        )
+                            .then((data) => {
+                                return data.json();
+                            })
+                            .then((json) => {
+                                setData(json);
+                                var streamsList = [];
+                                for (let i = 0; i < json[ 'total_streams' ]; i++) {
+                                    streamsList.push({
+                                        'media': json[ 'streams' ][ 'media' ][ i ],
+                                        'extension': json[ 'streams' ][ 'extension' ][ i ],
+                                        'filesize': json[ 'streams' ][ 'filesize' ][ i ],
+                                        'quality': json[ 'streams' ][ 'quality' ][ i ],
+                                        'url': json[ 'streams' ][ 'url' ][ i ]
+                                    });
+                                }
+                                setStream(streamsList);
+                                $('.loader').hide();
+                                $('.box').show();
+                                $('#app').show();
+                                setIsLoading(false);
+                                refContainer.current.value = "";
+                            })
+                            .catch((error) => {
+                                $('.loader').hide();
+                                $('.error').show();
+                                setIsError(true);
+                                console.log(error);
+                            });
+                    } }>Retry</button><br />
+                    <button className="btn" style={ { 'backgroundColor': 'rgb(13, 181, 172)', 'marginTop': '10px' } } onClick={ () => {
+                        setIsError(false);
+                        $('.loader').hide();
+                        $('.alert').hide();
+                        $('#app').show();
+                        refContainer.current.value = "";
+                    } }>Restart the App</button>
+                </div>
             </>
         );
     }
@@ -211,6 +263,7 @@ export default function Youtube () {
                 </div>
             </div>
             <br />
+            { isError && <Error /> }
             <div style={ { 'textAlign': 'center' } } id='app'>
                 <h2 style={ { 'textAlign': 'center' } }>Youtube Downloader</h2>
                 <p style={ { 'textAlign': 'center' } }>You can download youtube videos or audios by placing the link or code
@@ -230,7 +283,6 @@ export default function Youtube () {
                         </button>
                     </div>
                 </div>
-                { isError && <Error /> }
                 { isLoading || <Box /> }
             </div>
             <div
