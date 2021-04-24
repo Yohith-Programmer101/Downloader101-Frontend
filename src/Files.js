@@ -79,7 +79,7 @@ export default function Files () {
                 <meta name="description" content="You can download files here for free." />
                 <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
                 <meta name="og:title" content="Files Downlaoder - Downloader101" />
-                <meta name="og:url" content="https://downloader101.surge.sh/files" />
+                <meta name="og:url" content="https://downloader101.netlify.app/files" />
                 <meta name='og:image' content={ favicon } />
                 <meta name="og:image:height" content="100" />
                 <meta name="og:image:width" content="100" />

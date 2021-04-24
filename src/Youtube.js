@@ -237,7 +237,7 @@ export default function Youtube () {
                 />
                 <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
                 <meta name='og:title' content='Youtube Downloader - Downloader101' />
-                <meta name='og:url' content='https://downloader101.surge.sh/youtube' />
+                <meta name='og:url' content='https://downloader101.netlify.app/youtube' />
                 <meta name='og:image' content={ favicon } />
                 <meta name='og:image:height' content='100' />
                 <meta name='og:image:width' content='100' />

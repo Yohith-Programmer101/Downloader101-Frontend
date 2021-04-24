@@ -63,7 +63,7 @@ export default function Home () {
                     content="This is a website where you can download files and even youtube videos for free. This page contains the step by step tutorial for downloading files and youtube videos." />
                 <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
                 <meta name="og:title" content="Downloader101 - Step By Step Tutorial" />
-                <meta name="og:url" content="https://downloader101.surge.sh" />
+                <meta name="og:url" content="https://downloader101.netlify.app" />
                 <meta name="og:image" content={ favicon } />
                 <meta name="og:image:height" content="100" />
                 <meta name="og:image:width" content="100" />
