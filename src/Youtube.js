@@ -1,16 +1,15 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Helmet } from 'react-helmet';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import $, { error } from 'jquery';
-import favicon from './favicon.ico';
+import $ from 'jquery';
+import Helmet from 'react-helmet';
 
-export default function Youtube () {
-    const refContainer = useRef(null);
-    var [ data, setData ] = useState({});
-    var [ streams, setStream ] = useState([]);
-    const [ isLoading, setIsLoading ] = useState(true);
-    const [ isError, setIsError ] = useState(false);
-    const css = `
+export default function Youtube() {
+  const refContainer = useRef(null);
+  var [data, setData] = useState({});
+  var [streams, setStream] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const css = `
     table, td, tr {
         padding: 10px;
         margin: 10px;
@@ -57,239 +56,375 @@ export default function Youtube () {
             margin-left: 0px !important;
             margin-top: 10px;
         }
-    }`;
-    function closeAlert () {
-        $(".alert").hide();
     }
+    
+    .span {
+      margin-left: 10px;
+      margin-right: 10px;
+    }`;
+  function closeAlert() {
+    $('.alert').hide();
+  }
 
-    function processInput () {
-        var url = $("#url_bar").val();
-        if (url === "") {
-            $('.alert').show();
-            $(".box").hide();
-        }
-        else {
-            $('.alert').hide();
-            $('.loader').show();
-            $('#app').hide();
-            // Sample Youtube Video -> https://www.youtube.com/watch?v=Y8Tko2YC5hA
-            fetch(
+  function processInput() {
+    var url = $('#url_bar').val();
+    if (url === '') {
+      $('.alert').show();
+      $('.box').hide();
+    } else {
+      $('.alert').hide();
+      $('.loader').show();
+      $('#app').hide();
+      // Sample Youtube Video -> https://www.youtube.com/watch?v=Y8Tko2YC5hA
+      fetch(
+        `https://downloader101.pythonanywhere.com/api/?url=${refContainer.current.value}`
+      )
+        .then((data) => {
+          return data.json();
+        })
+        .then((json) => {
+          setData(json);
+          var streamsList = [];
+          for (let i = 0; i < json['total_streams']; i++) {
+            streamsList.push({
+              media: json['streams']['media'][i],
+              extension: json['streams']['extension'][i],
+              filesize: json['streams']['filesize'][i],
+              quality: json['streams']['quality'][i],
+              url: json['streams']['url'][i],
+            });
+          }
+          setStream(streamsList);
+          $('.loader').hide();
+          $('.box').show();
+          $('#app').show();
+          setIsLoading(false);
+          refContainer.current.value = '';
+        })
+        .catch((error) => {
+          $('.loader').hide();
+          $('.error').show();
+          setIsError(true);
+          console.log(error);
+        });
+    }
+  }
+  function Error() {
+    return (
+      <>
+        <div className='error' style={{ textAlign: 'center' }}>
+          <h1>...Error...</h1>
+          <button
+            className='btn'
+            style={{ backgroundColor: 'rgb(13, 181, 172)' }}
+            onClick={() => {
+              setIsError(false);
+              $('.alert').hide();
+              $('.loader').show();
+              $('#app').hide();
+              fetch(
                 `https://downloader101.pythonanywhere.com/api/?url=${refContainer.current.value}`
-            )
+              )
                 .then((data) => {
-                    return data.json();
+                  return data.json();
                 })
                 .then((json) => {
-                    setData(json);
-                    var streamsList = [];
-                    for (let i = 0; i < json[ 'total_streams' ]; i++) {
-                        streamsList.push({
-                            'media': json[ 'streams' ][ 'media' ][ i ],
-                            'extension': json[ 'streams' ][ 'extension' ][ i ],
-                            'filesize': json[ 'streams' ][ 'filesize' ][ i ],
-                            'quality': json[ 'streams' ][ 'quality' ][ i ],
-                            'url': json[ 'streams' ][ 'url' ][ i ]
-                        });
-                    }
-                    setStream(streamsList);
-                    $('.loader').hide();
-                    $('.box').show();
-                    $('#app').show();
-                    setIsLoading(false);
-                    refContainer.current.value = "";
+                  setData(json);
+                  var streamsList = [];
+                  for (let i = 0; i < json['total_streams']; i++) {
+                    streamsList.push({
+                      media: json['streams']['media'][i],
+                      extension: json['streams']['extension'][i],
+                      filesize: json['streams']['filesize'][i],
+                      quality: json['streams']['quality'][i],
+                      url: json['streams']['url'][i],
+                    });
+                  }
+                  setStream(streamsList);
+                  $('.loader').hide();
+                  $('.box').show();
+                  $('#app').show();
+                  setIsLoading(false);
+                  refContainer.current.value = '';
                 })
                 .catch((error) => {
-                    $('.loader').hide();
-                    $('.error').show();
-                    setIsError(true);
-                    console.log(error);
+                  $('.loader').hide();
+                  $('.error').show();
+                  setIsError(true);
+                  console.log(error);
                 });
-        }
-    }
-    function Error () {
-        return (
-            < >
-                <div className='error' style={ { 'textAlign': 'center' } }>
-                    <h1>...Error...</h1>
-                    <button className="btn" style={ { 'backgroundColor': 'rgb(13, 181, 172)' } } onClick={ () => {
-                        setIsError(false);
-                        $('.alert').hide();
-                        $('.loader').show();
-                        $('#app').hide();
-                        fetch(
-                            `https://downloader101.pythonanywhere.com/api/?url=${refContainer.current.value}`
-                        )
-                            .then((data) => {
-                                return data.json();
-                            })
-                            .then((json) => {
-                                setData(json);
-                                var streamsList = [];
-                                for (let i = 0; i < json[ 'total_streams' ]; i++) {
-                                    streamsList.push({
-                                        'media': json[ 'streams' ][ 'media' ][ i ],
-                                        'extension': json[ 'streams' ][ 'extension' ][ i ],
-                                        'filesize': json[ 'streams' ][ 'filesize' ][ i ],
-                                        'quality': json[ 'streams' ][ 'quality' ][ i ],
-                                        'url': json[ 'streams' ][ 'url' ][ i ]
-                                    });
-                                }
-                                setStream(streamsList);
-                                $('.loader').hide();
-                                $('.box').show();
-                                $('#app').show();
-                                setIsLoading(false);
-                                refContainer.current.value = "";
-                            })
-                            .catch((error) => {
-                                $('.loader').hide();
-                                $('.error').show();
-                                setIsError(true);
-                                console.log(error);
-                            });
-                    } }>Retry</button><br />
-                    <button className="btn" style={ { 'backgroundColor': 'rgb(13, 181, 172)', 'marginTop': '10px' } } onClick={ () => {
-                        setIsError(false);
-                        $('.loader').hide();
-                        $('.alert').hide();
-                        $('#app').show();
-                        refContainer.current.value = "";
-                    } }>Restart the App</button>
-                </div>
-            </>
-        );
-    }
-    function Box () {
-        return (
-            < >
-                <div className="box">
-                    <div style={ { 'textAlign': 'center' } }>
-                        <img src={ data[ 'image' ] } alt={ data[ 'title' ] }
-                            style={ { 'borderRadius': '5px', 'width': '300px', 'height': '150px' } } /><br />
-                        <h3>{ data[ 'title' ] }</h3>
-                    </div>
-                    <p>
-                        Duration: { data[ 'duration' ] } <br />
-                        Views: { data[ 'views' ] } <br />
-                        Ratings: { data[ 'ratings' ] } <br />
-                        Likes: { data[ 'likes' ] } <br />
-                        Dislikes: { data[ 'dislikes' ] } <br />
-                    </p>
-                    <p>Right click the link and select the option save link in computers or long press the link and
-                        select option download link in mobiles.</p>
-                    <table>
-                        <tbody>
-                            <tr style={ { 'backgroundColor': 'grey', 'color': 'white' } }>
-                                <td>Media Type</td>
-                                <td>Description</td>
-                            </tr>
-                            <tr>
-                                <td>normal</td>
-                                <td>Contains both audio and video. (Suitable for everything)</td>
-                            </tr>
-                            <tr>
-                                <td>video</td>
-                                <td>Contains only video. (Suitable for seeing movies like 'Charlie Chaplin')</td>
-                            </tr>
-                            <tr>
-                                <td>audio</td>
-                                <td>Contains only audio. (Suitable for listening musics.)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <br />
-                    <table>
-                        <tbody>
-                            <tr style={ { 'backgroundColor': 'grey', 'color': 'white' } }>
-                                <td>Media</td>
-                                <td>File</td>
-                                <td>Quality</td>
-                                <td>Size</td>
-                                <td>Link</td>
-                            </tr>
-                            { streams.map((elem, index) => {
-                                return (
-                                    <tr key={ elem[ 'url' ] + index }>
-                                        <td key={ new Date().getTime().toString() + elem[ 'media' ] }>{ elem[ 'media' ] }</td>
-                                        <td key={ new Date().getTime().toString() + elem[ 'extension' ] }>{ elem[ 'extension' ] }</td>
-                                        <td key={ new Date().getTime().toString() + elem[ 'quality' ] }>{ elem[ 'quality' ] }</td>
-                                        <td key={ new Date().getTime().toString() + elem[ 'filesize' ] }>{ elem[ 'filesize' ] }</td>
-                                        <td key={ new Date().getTime().toString() + elem[ 'url' ] }><a target='_blank' className='btn btn-primary' href={ elem[ 'url' ] }>Link</a></td>
-                                    </tr>
-                                );
-                            }) }
-                        </tbody>
-                    </table>
-                </div>
-            </>
-        );
-    }
-    return (
-        < >
-            <Helmet>
-                <meta charset='UTF-8' />
-                <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-                <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-                <title>Youtube Downloader - Downloader101</title>
-                <meta
-                    name='description'
-                    content='You can download youtube videos here for free.'
-                />
-                <link rel="shortcut icon" href={ favicon } type="image/x-icon" />
-                <meta name='og:title' content='Youtube Downloader - Downloader101' />
-                <meta name='og:url' content='https://downloader101.netlify.app/youtube' />
-                <meta name='og:image' content={ favicon } />
-                <meta name='og:image:height' content='100' />
-                <meta name='og:image:width' content='100' />
-                <meta
-                    name='og:description'
-                    content='You can download youtube videos here for free.'
-                />
-            </Helmet>
-            <div id='navbar' style={ { textAlign: 'center' } }>
-                <h1>
-                    <Link
-                        to='/'
-                        style={ { color: 'rgb(13, 181, 172)', textDecoration: 'none' } }
-                    >
-                        Downloader101
-          </Link>
-                </h1>
-                <div className='scrollmenu'>
-                    <Link to='/files'>Files Downloader</Link>
-                    <Link to='/youtube' className='active'>
-                        Youtube Downloader
-          </Link>
-                </div>
-            </div>
-            <br />
-            { isError && <Error /> }
-            <div style={ { 'textAlign': 'center' } } id='app'>
-                <h2 style={ { 'textAlign': 'center' } }>Youtube Downloader</h2>
-                <p style={ { 'textAlign': 'center' } }>You can download youtube videos or audios by placing the link or code
-                below.
-                </p>
-                <div>
-                    <input type="text" id="url_bar" name="url" ref={ refContainer } onInput={ () => $('.box').hide() } />
-                    <button className="btn" style={ { 'backgroundColor': 'rgb(13, 181, 172)', 'marginLeft': '10px' } }
-                        onClick={ processInput }>Get</button>
-                    <br /><br />
-                    <div id="alert" className="alert alert-warning alert-dismissible fade show" role="alert"
-                        style={ { 'display': 'none', 'width': '600px', 'margin': 'auto', 'textAlign': 'center' } }>
-                        <strong>Alert !</strong> You should enter any url.
-                        <button type="button" className="btn" aria-label="Close" onClick={ closeAlert }>
-                            <span aria-hidden="true"
-                                style={ { 'fontSize': '25px', 'position': 'absolute', 'right': '10px', 'top': '2px' } }>&times;</span>
-                        </button>
-                    </div>
-                </div>
-                { isLoading || <Box /> }
-            </div>
-            <div
-                style={ { 'backgroundColor': 'lightgrey', 'height': '25px', 'position': 'fixed', 'bottom': '0px', 'width': '100%', 'padding': '5px' } }>
-                <pre>Version: 0.1        Author: Yohith        About me: <a href="https://yohith.netlify.app" target="_blank">here</a>        API: <a href="/api/" target="_blank">here</a>        Tutorial: <a href="/tutorial/" target="_blank">here</a></pre>
-            </div>
-            <style>{ css }</style>
-        </>
+            }}
+          >
+            Retry
+          </button>
+          <br />
+          <button
+            className='btn'
+            style={{ backgroundColor: 'rgb(13, 181, 172)', marginTop: '10px' }}
+            onClick={() => {
+              window.location.reload(false);
+            }}
+          >
+            Restart the App
+          </button>
+        </div>
+      </>
     );
+  }
+  function Box() {
+    return (
+      <>
+        <div className='box'>
+          <div style={{ textAlign: 'center' }}>
+            <img
+              src={data['image']}
+              alt={data['title']}
+              style={{ borderRadius: '5px', width: '300px', height: '150px' }}
+            />
+            <br />
+            <h3>{data['title']}</h3>
+          </div>
+          <p>
+            Duration: {data['duration']} <br />
+            Views: {data['views']} <br />
+            Ratings: {data['ratings']} <br />
+            Likes: {data['likes']} <br />
+            Dislikes: {data['dislikes']} <br />
+          </p>
+          <p>
+            Right click the link and select the option save link in computers or
+            long press the link and select option download link in mobiles.
+          </p>
+          <table>
+            <tbody>
+              <tr style={{ backgroundColor: 'grey', color: 'white' }}>
+                <td>Media Type</td>
+                <td>Description</td>
+              </tr>
+              <tr>
+                <td>normal</td>
+                <td>
+                  Contains both audio and video. (Suitable for everything)
+                </td>
+              </tr>
+              <tr>
+                <td>video</td>
+                <td>
+                  Contains only video. (Suitable for seeing movies like 'Charlie
+                  Chaplin')
+                </td>
+              </tr>
+              <tr>
+                <td>audio</td>
+                <td>Contains only audio. (Suitable for listening musics.)</td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <table>
+            <tbody>
+              <tr style={{ backgroundColor: 'grey', color: 'white' }}>
+                <td>Media</td>
+                <td>File</td>
+                <td>Quality</td>
+                <td>Size</td>
+                <td>Link</td>
+              </tr>
+              {streams.map((elem, index) => {
+                return (
+                  <tr key={elem['url'] + index}>
+                    <td key={new Date().getTime().toString() + elem['media']}>
+                      {elem['media']}
+                    </td>
+                    <td
+                      key={new Date().getTime().toString() + elem['extension']}
+                    >
+                      {elem['extension']}
+                    </td>
+                    <td key={new Date().getTime().toString() + elem['quality']}>
+                      {elem['quality']}
+                    </td>
+                    <td
+                      key={new Date().getTime().toString() + elem['filesize']}
+                    >
+                      {elem['filesize']}
+                    </td>
+                    <td key={new Date().getTime().toString() + elem['url']}>
+                      <a
+                        target='_blank'
+                        className='btn btn-primary'
+                        href={elem['url']}
+                      >
+                        Link
+                      </a>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </>
+    );
+  }
+  return (
+    <>
+      <Helmet>
+        <meta charset='UTF-8' />
+        <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>Youtube Downloader - Downloader 101</title>
+        <meta
+          name='description'
+          content='You can download youtube videos here for free.'
+        />
+        <link
+          rel='shortcut icon'
+          href='https://downloader101.netlify.app/static/media/favicon.bb8b6ce9.ico'
+          type='image/x-icon'
+        />
+        <meta name='og:title' content='Youtube Downloader - Downloader 101' />
+        <meta name='og:url' content='https://downloader101.netlify.app/' />
+        <meta
+          name='og:image'
+          content='https://downloader101.netlify.app/static/media/favicon.bb8b6ce9.ico'
+        />
+        <meta name='og:image:height' content='100' />
+        <meta name='og:image:width' content='100' />
+        <meta
+          name='og:description'
+          content='You can download youtube videos here for free.'
+        />
+      </Helmet>
+      <div id='navbar' style={{ textAlign: 'center' }}>
+        <h1>
+          <Link
+            to='/'
+            style={{ color: 'rgb(13, 181, 172)', textDecoration: 'none' }}
+          >
+            Downloader 101
+          </Link>
+        </h1>
+        <div className='scrollmenu'>
+          <Link to='/files'>Files Downloader</Link>
+          <Link to='/youtube' className='active'>
+            Youtube Downloader
+          </Link>
+        </div>
+      </div>
+      <br />
+      {isError && <Error />}
+      <div style={{ textAlign: 'center' }} id='app'>
+        <h1 style={{ textAlign: 'center' }}>Youtube Downloader</h1>
+        <p style={{ textAlign: 'center' }}>
+          You can download youtube videos or audios by placing the link or code
+          below.
+        </p>
+        <div>
+          <input
+            type='text'
+            id='url_bar'
+            name='url'
+            placeholder='Place the link or code here ...'
+            ref={refContainer}
+            onInput={() => $('.box').hide()}
+          />
+          <button
+            className='btn'
+            style={{ backgroundColor: 'rgb(13, 181, 172)', marginLeft: '10px' }}
+            onClick={processInput}
+          >
+            Get
+          </button>
+          <br />
+          <br />
+          <div
+            id='alert'
+            className='alert alert-warning alert-dismissible fade show'
+            role='alert'
+            style={{
+              display: 'none',
+              width: '600px',
+              margin: 'auto',
+              textAlign: 'center',
+            }}
+          >
+            <strong>Alert !</strong> You should enter any url.
+            <button
+              type='button'
+              className='btn'
+              aria-label='Close'
+              onClick={closeAlert}
+            >
+              <span
+                aria-hidden='true'
+                style={{
+                  fontSize: '25px',
+                  position: 'absolute',
+                  right: '10px',
+                  top: '2px',
+                }}
+              >
+                &times;
+              </span>
+            </button>
+          </div>
+        </div>
+        {isLoading || <Box />}
+      </div>
+      <div className='box'>
+        <h3 style={{ textAlign: 'center' }}>About...</h3>
+        <p style={{ margin: '15px 50px 0px 50px' }}>
+          Hello, visitors, this page of the Downloader 101 app is a Youtube
+          video downloader page. Place the Youtube video URL or video code in
+          the input field and click the "get" button. A box will appear with the
+          details of the YouTube video, scroll down to see more info, and click
+          a desired "link" button it will take you to the preview page if you
+          want to download it you can right-click the "link" button and follow
+          the steps same as Files Downloader app, select "save file" if you are
+          in the computer and "download files" on mobile.
+        </p>
+      </div>
+      <div
+        style={{
+          backgroundColor: 'lightgrey',
+          height: '25px',
+          position: 'fixed',
+          bottom: '0px',
+          width: '100%',
+          padding: '5px',
+        }}
+      >
+        <pre>
+          <span className='span'>Version: 0.2</span>
+          <span className='span'>Author: Yohith</span>
+          <span className='span'>
+            About me:{' '}
+            <a href='https://yohith.netlify.app' target='_blank'>
+              here
+            </a>
+          </span>
+          <span className='span'>
+            API:{' '}
+            <a
+              href='https://downloader101.pythonanywhere.com/api/'
+              target='_blank'
+            >
+              here
+            </a>
+          </span>
+          <span className='span'>
+            Tutorial:{' '}
+            <a
+              href='https://downloader101.pythonanywhere.com/tutorial/'
+              target='_blank'
+            >
+              here
+            </a>
+          </span>
+        </pre>
+      </div>
+      <style>{css}</style>
+    </>
+  );
 }

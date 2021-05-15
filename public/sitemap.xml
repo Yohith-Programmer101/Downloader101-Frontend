@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://downloader101.surge.sh/</loc>
+        <loc>https://downloader101.netlify.app/</loc>
         <lastmod>2021-09-05</lastmod>
     </url>
     <url>
-        <loc>https://downloader101.surge.sh/files</loc>
+        <loc>https://downloader101.netlify.app/files</loc>
         <lastmod>2021-09-05</lastmod>
     </url>
     <url>
-        <loc>https://downloader101.surge.sh/youtube</loc>
-        <lastmod>2021-09-05</lastmod>
-    </url>
-    <url>
-        <loc>https://downloader101.pythonanywhere.com/api/</loc>
-        <lastmod>2021-09-05</lastmod>
-    </url>
-    <url>
-        <loc>https://downloader101.pythonanywhere.com/tutorial/</loc>
+        <loc>https://downloader101.netlify.app/youtube</loc>
         <lastmod>2021-09-05</lastmod>
     </url>
 </urlset>
