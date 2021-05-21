@@ -119,7 +119,7 @@ export default function Files() {
       </div>
       <br />
       <div style={{ textAlign: 'center' }}>
-        <h1 style={{ textAlign: 'center' }}>Files Downloader</h1>
+        <h2 style={{ textAlign: 'center' }}>Files Downloader</h2>
         <p style={{ textAlign: 'center' }}>
           You can download files by placing the url in the input.
         </p>
@@ -189,14 +189,15 @@ export default function Files() {
         <h3 style={{ textAlign: 'center' }}>About...</h3>
         <p style={{ margin: '15px 50px 0px 50px' }}>
           Hello, visitors, this page of the Downloader 101 App is a File
-          Downloader page. Place the URL in the input and click the "save"
-          button. A box will appear with a link, right-click the link and select
-          "save file" if you are on the computer and "download file" on mobiles.
-          A Save as window will appear with the renaming option on the computer
-          rename the file if you want, you can also change the format type
-          example if you an image is in png format you can change it into jpg
-          format and click save, the file will be downloaded. The downloading
-          speed depends on the site or domain from which the file is hosted.
+          Downloader page. Place the URL in the input and click the <b>save</b>{' '}
+          button. A box will appear with a link, right-click the link and select{' '}
+          <b>save file</b> if you are on the computer and <b>download file</b>{' '}
+          on mobiles. A Save as window will appear with the renaming option on
+          the computer rename the file if you want, you can also change the
+          format type example if you an image is in png format you can change it
+          into jpg format and click save, the file will be downloaded. The
+          downloading speed depends on the site or domain from which the file is
+          hosted.
         </p>
       </div>
       <div

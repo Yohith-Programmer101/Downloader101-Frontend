@@ -112,7 +112,7 @@ export default function Home() {
       </div>
       <br />
       <div style={{ textAlign: 'center' }}>
-        <h1>Tutorial</h1>
+        <h2>Tutorial</h2>
         <h5>
           Step by Step tutorial to use Files Downloader and Youtube Downloader
         </h5>
@@ -214,8 +214,8 @@ export default function Home() {
           anyone for free, the link can be found at the bottom menu bar with the
           tutorial. The backend of this app is made with Django, a high-level
           Python Web framework, and the frontend with React.js, a JavaScript
-          library. This project's codes are also hosted in GitHub. This page
-          contains the step by step tutorial for using this app with images.
+          library. This page contains the step by step tutorial for using this
+          app.
         </p>
       </div>
       <div
