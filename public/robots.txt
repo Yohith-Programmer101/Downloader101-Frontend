@@ -1,4 +1,4 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 
-Sitemap: https://downloader101.herokuapp.com/static/sitemap.xml
+Sitemap: https://downloader101.netlify.com/sitemap.xml

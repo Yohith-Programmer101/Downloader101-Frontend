@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
+import bottomBar from './bottomBar.json';
 
 export default function Home() {
   const files1 =
@@ -229,29 +230,23 @@ export default function Home() {
         }}
       >
         <pre>
-          <span className='span'>Version: 0.2</span>
-          <span className='span'>Author: Yohith</span>
+          <span className='span'>Version: {bottomBar['version']}</span>
+          <span className='span'>Author: {bottomBar['author']}</span>
           <span className='span'>
             About me:{' '}
-            <a href='https://yohith.netlify.app' target='_blank'>
+            <a href={bottomBar['about']} target='_blank'>
               here
             </a>
           </span>
           <span className='span'>
             API:{' '}
-            <a
-              href='https://downloader101.pythonanywhere.com/api/'
-              target='_blank'
-            >
+            <a href={bottomBar['api']} target='_blank'>
               here
             </a>
           </span>
           <span className='span'>
             Tutorial:{' '}
-            <a
-              href='https://downloader101.pythonanywhere.com/tutorial/'
-              target='_blank'
-            >
+            <a href={bottomBar['tutorial']} target='_blank'>
               here
             </a>
           </span>

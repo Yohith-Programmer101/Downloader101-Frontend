@@ -1,14 +1,30 @@
-import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef, useState, useEffect } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import $ from 'jquery';
 import Helmet from 'react-helmet';
+import bottomBar from './bottomBar.json';
 
 export default function Youtube() {
+  const location = useLocation();
+  const history = useHistory();
   const refContainer = useRef(null);
   var [data, setData] = useState({});
   var [streams, setStream] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    let urlLocation = new URL(window.location.href);
+    let url = urlLocation.searchParams.get('url');
+    if (url) {
+      fetchData(url);
+      urlLocation.searchParams.delete('url');
+      history.replace({
+        search: urlLocation.searchParams.toString(),
+      });
+    }
+  }, []);
+
   const css = `
     table, td, tr {
         padding: 10px;
@@ -76,50 +92,55 @@ export default function Youtube() {
     $('.alert').hide();
   }
 
+  function fetchData(link) {
+    setIsError(false);
+    $('.alert').hide();
+    $('.loader').show();
+    $('#app').hide();
+    $('.box').hide();
+    fetch(`https://downloader101.pythonanywhere.com/api/?url=${link}`)
+      .then((data) => {
+        return data.json();
+      })
+      .then((json) => {
+        setData(json);
+        var streamsList = [];
+        for (let i = 0; i < json['total_streams']; i++) {
+          streamsList.push({
+            media: json['streams']['media'][i],
+            extension: json['streams']['extension'][i],
+            filesize: json['streams']['filesize'][i],
+            quality: json['streams']['quality'][i],
+            url: json['streams']['url'][i],
+          });
+        }
+        setStream(streamsList);
+        $('.loader').hide();
+        $('.box').show();
+        $('#app').show();
+        setIsLoading(false);
+        refContainer.current.value = '';
+      })
+      .catch((error) => {
+        $('.loader').hide();
+        $('.error').show();
+        setIsError(true);
+        console.log(error);
+      });
+  }
+
   function processInput() {
     var url = $('#url_bar').val();
     if (url === '') {
       $('.alert').show();
       $('.box').hide();
     } else {
-      $('.alert').hide();
-      $('.loader').show();
-      $('#app').hide();
-      // Sample Youtube Video -> https://www.youtube.com/watch?v=Y8Tko2YC5hA
-      fetch(
-        `https://downloader101.pythonanywhere.com/api/?url=${refContainer.current.value}`
-      )
-        .then((data) => {
-          return data.json();
-        })
-        .then((json) => {
-          setData(json);
-          var streamsList = [];
-          for (let i = 0; i < json['total_streams']; i++) {
-            streamsList.push({
-              media: json['streams']['media'][i],
-              extension: json['streams']['extension'][i],
-              filesize: json['streams']['filesize'][i],
-              quality: json['streams']['quality'][i],
-              url: json['streams']['url'][i],
-            });
-          }
-          setStream(streamsList);
-          $('.loader').hide();
-          $('.box').show();
-          $('#app').show();
-          setIsLoading(false);
-          refContainer.current.value = '';
-        })
-        .catch((error) => {
-          $('.loader').hide();
-          $('.error').show();
-          setIsError(true);
-          console.log(error);
-        });
+      fetchData(refContainer.current.value);
     }
   }
   function Error() {
+    $('#app').hide();
+    $('.box').hide();
     return (
       <>
         <div className='error' style={{ textAlign: 'center' }}>
@@ -127,43 +148,7 @@ export default function Youtube() {
           <button
             className='btn'
             style={{ backgroundColor: 'rgb(13, 181, 172)' }}
-            onClick={() => {
-              setIsError(false);
-              $('.alert').hide();
-              $('.loader').show();
-              $('#app').hide();
-              fetch(
-                `https://downloader101.pythonanywhere.com/api/?url=${refContainer.current.value}`
-              )
-                .then((data) => {
-                  return data.json();
-                })
-                .then((json) => {
-                  setData(json);
-                  var streamsList = [];
-                  for (let i = 0; i < json['total_streams']; i++) {
-                    streamsList.push({
-                      media: json['streams']['media'][i],
-                      extension: json['streams']['extension'][i],
-                      filesize: json['streams']['filesize'][i],
-                      quality: json['streams']['quality'][i],
-                      url: json['streams']['url'][i],
-                    });
-                  }
-                  setStream(streamsList);
-                  $('.loader').hide();
-                  $('.box').show();
-                  $('#app').show();
-                  setIsLoading(false);
-                  refContainer.current.value = '';
-                })
-                .catch((error) => {
-                  $('.loader').hide();
-                  $('.error').show();
-                  setIsError(true);
-                  console.log(error);
-                });
-            }}
+            onClick={() => fetchData(refContainer.current.value)}
           >
             Retry
           </button>
@@ -425,29 +410,23 @@ export default function Youtube() {
         }}
       >
         <pre>
-          <span className='span'>Version: 0.2</span>
-          <span className='span'>Author: Yohith</span>
+          <span className='span'>Version: {bottomBar['version']}</span>
+          <span className='span'>Author: {bottomBar['author']}</span>
           <span className='span'>
             About me:{' '}
-            <a href='https://yohith.netlify.app' target='_blank'>
+            <a href={bottomBar['about']} target='_blank'>
               here
             </a>
           </span>
           <span className='span'>
             API:{' '}
-            <a
-              href='https://downloader101.pythonanywhere.com/api/'
-              target='_blank'
-            >
+            <a href={bottomBar['api']} target='_blank'>
               here
             </a>
           </span>
           <span className='span'>
             Tutorial:{' '}
-            <a
-              href='https://downloader101.pythonanywhere.com/tutorial/'
-              target='_blank'
-            >
+            <a href={bottomBar['tutorial']} target='_blank'>
               here
             </a>
           </span>

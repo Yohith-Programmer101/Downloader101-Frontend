@@ -1,9 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import $ from 'jquery';
 import Helmet from 'react-helmet';
+import bottomBar from './bottomBar.json';
 
 export default function Files() {
+  const location = useLocation();
+  const history = useHistory();
+
   function closeAlert() {
     $('.alert').hide();
   }
@@ -18,9 +22,24 @@ export default function Files() {
       $('.box').show();
       $('#link').attr('href', url);
       $('#url_bar').val('');
-      console.log(url);
     }
   }
+
+  useEffect(() => {
+    let urlLocation = new URL(window.location.href);
+    let url = urlLocation.searchParams.get('url');
+    if (url) {
+      $('.alert').hide();
+      $('.box').show();
+      $('#link').attr('href', url);
+      $('#url_bar').val('');
+      urlLocation.searchParams.delete('url');
+      history.replace({
+        search: urlLocation.searchParams.toString(),
+      });
+    }
+  }, []);
+
   const css = `
     .box {
         background-color: lightgrey;
@@ -211,29 +230,23 @@ export default function Files() {
         }}
       >
         <pre>
-          <span className='span'>Version: 0.2</span>
-          <span className='span'>Author: Yohith</span>
+          <span className='span'>Version: {bottomBar['version']}</span>
+          <span className='span'>Author: {bottomBar['author']}</span>
           <span className='span'>
             About me:{' '}
-            <a href='https://yohith.netlify.app' target='_blank'>
+            <a href={bottomBar['about']} target='_blank'>
               here
             </a>
           </span>
           <span className='span'>
             API:{' '}
-            <a
-              href='https://downloader101.pythonanywhere.com/api/'
-              target='_blank'
-            >
+            <a href={bottomBar['api']} target='_blank'>
               here
             </a>
           </span>
           <span className='span'>
             Tutorial:{' '}
-            <a
-              href='https://downloader101.pythonanywhere.com/tutorial/'
-              target='_blank'
-            >
+            <a href={bottomBar['tutorial']} target='_blank'>
               here
             </a>
           </span>
