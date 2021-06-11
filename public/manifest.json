@@ -2,32 +2,23 @@
     "short_name": "Downloader 101",
     "name": "Downloader 101 - Files Downloader App",
     "icons": [
+	    {
+        "src": "images/logo192x192.png",
+        "type": "image/png",
+        "sizes": "192x192",
+        "purpose": "maskable"
+      },
       {
-        "src": "/favicon.ico",
-        "type": "image/icon",
-        "sizes": "225x225"
+        "src": "images/logo512x512.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any"
       }
     ],
     "start_url": "/",
-    "background_color": "#ffffff",
+    "background_color": "rgb(13, 181, 172)",
     "display": "standalone",
-    "scope": "/",
-    "theme_color": "#ffffff",
-    "shortcuts": [
-      {
-        "name": "Files Downloader - Downloader 101",
-        "short_name": "Files Downloader",
-        "description": "You can download files here for free.",
-        "url": "/files",
-        "icons": [{ "src": "/favicon.ico", "sizes": "225x225" }]
-      },
-      {
-        "name": "Youtube Downloader - Downloader 101",
-        "short_name": "Youtube Downloader",
-        "description": "You can download youtube videos here for free.",
-        "url": "/youtube",
-        "icons": [{ "src": "/favicon.ico", "sizes": "225x225" }]
-      }
-    ],
+    "scope_url": "/",
+    "theme_color": "rgb(13, 181, 172)",
     "description": "Downloader 101 is a web app where you can download files and youtube videos for free."
 }

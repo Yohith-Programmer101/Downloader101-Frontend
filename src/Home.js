@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import bottomBar from './bottomBar.json';
@@ -78,7 +78,7 @@ export default function Home() {
         />
         <link
           rel='shortcut icon'
-          href='https://downloader101.netlify.app/static/media/favicon.bb8b6ce9.ico'
+          href='https://downloader101.netlify.app/favicon.ico'
           type='image/x-icon'
         />
         <meta
@@ -88,7 +88,7 @@ export default function Home() {
         <meta name='og:url' content='https://downloader101.netlify.app/' />
         <meta
           name='og:image'
-          content='https://downloader101.netlify.app/static/media/favicon.bb8b6ce9.ico'
+          content='https://downloader101.netlify.app/favicon.ico'
         />
         <meta name='og:image:height' content='100' />
         <meta name='og:image:width' content='100' />
@@ -113,6 +113,68 @@ export default function Home() {
       </div>
       <br />
       <div style={{ textAlign: 'center' }}>
+        <h3>
+          Why you should use Downloader 101 ?
+          <br /> And <br />
+          Why is it the Best Downloading app ?
+        </h3>
+        <div className='box' style={{ marginTop: '30px' }}>
+          <div className='steps'>
+            <div className='card'>
+              <span
+                style={{ margin: 'auto', marginTop: '35px' }}
+                className='card-img-top'
+              >
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  width='130'
+                  height='130'
+                  fill='currentColor'
+                  className='bi bi-speedometer'
+                  viewBox='0 0 16 16'
+                >
+                  <path d='M8 2a.5.5 0 0 1 .5.5V4a.5.5 0 0 1-1 0V2.5A.5.5 0 0 1 8 2zM3.732 3.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 8a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 8zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 7.31A.91.91 0 1 0 8.85 8.569l3.434-4.297a.389.389 0 0 0-.029-.518z' />
+                  <path
+                    fillRule='evenodd'
+                    d='M6.664 15.889A8 8 0 1 1 9.336.11a8 8 0 0 1-2.672 15.78zm-4.665-4.283A11.945 11.945 0 0 1 8 10c2.186 0 4.236.585 6.001 1.606a7 7 0 1 0-12.002 0z'
+                  />
+                </svg>
+              </span>
+              <div className='card-body' style={{ backgroundColor: 'grey' }}>
+                <p className='card-text' style={{ color: 'white' }}>
+                  This app is Fast, Easy and Efficient to use.
+                </p>
+              </div>
+            </div>
+            <div className='card'>
+              <img
+                style={{ margin: 'auto', marginTop: '35px' }}
+                className='card-img-top'
+                src='https://raw.githubusercontent.com/Yohith-Programmer101/Storage/main/Downloader101/free.svg'
+              />
+              <div className='card-body' style={{ backgroundColor: 'grey' }}>
+                <p className='card-text' style={{ color: 'white' }}>
+                  This app is Completely Free and has an Youtube API from which
+                  you can also make a website or app like this.
+                </p>
+              </div>
+            </div>
+            <div className='card'>
+              <img
+                style={{ margin: 'auto', marginTop: '35px' }}
+                className='card-img-top'
+                src='https://raw.githubusercontent.com/Yohith-Programmer101/Storage/main/Downloader101/apps.png'
+              />
+              <div className='card-body' style={{ backgroundColor: 'grey' }}>
+                <p className='card-text' style={{ color: 'white' }}>
+                  This app can be installed or added to your home screen in all
+                  type of OS's.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br style={{ marginBottom: '40px' }} />
         <h2>Tutorial</h2>
         <h5>
           Step by Step tutorial to use Files Downloader and Youtube Downloader

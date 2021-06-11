@@ -156,9 +156,7 @@ export default function Youtube() {
           <button
             className='btn'
             style={{ backgroundColor: 'rgb(13, 181, 172)', marginTop: '10px' }}
-            onClick={() => {
-              window.location.reload(false);
-            }}
+            onClick={() => (window.location.href = window.location.href)}
           >
             Restart the App
           </button>
