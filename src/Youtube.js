@@ -189,7 +189,17 @@ export default function Youtube() {
               src={data['image']}
               alt={data['title']}
               id='image'
-              style={{ borderRadius: '5px', width: '320px', height: '180px' }}
+              onClick={() =>
+                window.open(
+                  `https://www.youtube.com/watch?v=${data['videoid']}`
+                )
+              }
+              style={{
+                borderRadius: '5px',
+                width: '320px',
+                height: '180px',
+                cursor: 'pointer',
+              }}
             />
             <br />
             <h3>{data['title']}</h3>
